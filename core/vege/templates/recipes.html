@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #343a40;
+            text-align: center;
+        }
+
+        hr {
+            border: 1px solid #dee2e6;
+            margin: 20px 0;
+        }
+
+        .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            color: #343a40;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: 1px solid #218838;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border: 1px solid #1e7e34;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background-color: #bd2130;
+            border-color: #bd2130;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Add Recipe</h2>
+        <hr>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Recipe name</label>
+            <input name="recipe_name" required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Recipe description</label>
+            <textarea class="form-control" name="recipe_description" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Recipe Image</label>
+            <input name="recipe_image" type="file" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Recipe name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Image</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipe in recipes %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ recipe.recipe_name }}</td>
+                <td>{{ recipe.recipe_description }}</td>
+                <td>
+                    <img src="/media/{{ recipe.recipe_image }}" style="height: 100px; width: 100px; object-fit: cover;" alt="{{ recipe.recipe_name }} Image">
+
+                </td>
+
+                <td>
+                    <a href="/delete-recipe/{{ recipe.id }}/" class="btn btn-danger">Delete </a>
+                </td>
+
+                <td>
+                  <a href="/update-recipe/{{ recipe.id }}/" class="btn btn-success">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Bootstrap JS (Include Bootstrap JS if not already included) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-cN9I+CvoqBI/A5OgNyW1Q5SZPnU6tkvZan/JZgixIqWpwoVrKQH62D9eS2tbw8U1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy/Q8LsFtwayDQwayDQ"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
